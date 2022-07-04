@@ -8,7 +8,7 @@ export const Server: CommandModule = {
   type: ApplicationCommandTypes.CHAT_INPUT,
 
   async run(client: Client, interaction: BaseCommandInteraction) {
-    const content = `Server name: ${interaction.guild?.name ?? 'Unknown'}\nServer id: ${interaction.guildId ?? 0}`
+    const content = `Server name: ${interaction.guild?.name ?? 'Unknown'}\nServer id: ${interaction.guildId ?? 0}\nServer members: ${interaction.guild?.memberCount ?? 0}`
 
     await interaction.followUp({
       content,
