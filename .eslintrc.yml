@@ -35,7 +35,7 @@ rules:
   handle-callback-err: 'off'
   indent:
     - error
-    - tab
+    - 2
   keyword-spacing: error
   max-nested-callbacks:
     - error
@@ -72,7 +72,7 @@ rules:
     - single
   semi:
     - error
-    - always
+    - never
   space-before-blocks: error
   space-before-function-paren:
     - error
@@ -88,3 +88,5 @@ rules:
     - error
     - before: false
       after: true
+  '@typescript-eslint/no-non-null-assertion':
+    - off
