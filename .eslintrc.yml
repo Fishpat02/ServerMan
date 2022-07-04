@@ -8,6 +8,7 @@ extends:
 parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaVersion: 2021
+  project: ./tsconfig.json
 plugins:
   - '@typescript-eslint'
 rules:
@@ -83,7 +84,7 @@ rules:
   space-unary-ops: error
   spaced-comment: error
   yoda: error
-  @typescript-eslint/type-annotation-spacing:
+  '@typescript-eslint/type-annotation-spacing':
     - error
     - before: false
       after: true
