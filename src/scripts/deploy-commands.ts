@@ -1,14 +1,27 @@
 import 'dotenv/config'
 import { Commands } from '../commands'
 import { REST } from '@discordjs/rest'
-import { Routes } from 'discord-api-types/v9'
+import { Routes } from 'discord-api-types/v10'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import { ApplicationCommandOptionTypes } from 'discord.js/typings/enums'
 
 const commands = Commands
 
-commands.map(c => new SlashCommandBuilder().setName(c.name).setDescription(c.description).toJSON())
+commands.map(c => {
+  const temp = new SlashCommandBuilder().setName(c.name).setDescription(c.description)
 
-const rest = new REST({ version:'9' }).setToken(process.env.TOKEN!)
+  if (c.options) {
+    for (const option of c.options) {
+      switch (option.type) {
+      case ApplicationCommandOptionTypes.USER:
+        temp.addUserOption(o => o.setName(option.name).setDescription(option.description))
+      }
+    }
+  }
+})
+
+
+const rest = new REST({ version:'10' }).setToken(process.env.TOKEN!)
 
 rest.put(Routes.applicationGuildCommands(process.env.CLIENT!, process.env.GUILD!), { body: commands })
   .then(() => console.log(`Successfully registered ${commands.length} application commands.`))
