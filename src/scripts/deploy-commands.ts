@@ -13,8 +13,13 @@ commands.map(c => {
   if (c.options) {
     for (const option of c.options) {
       switch (option.type) {
+      case ApplicationCommandOptionTypes.STRING:
+        temp.addStringOption(o => o.setName(option.name).setDescription(option.description))
+        break
+
       case ApplicationCommandOptionTypes.USER:
         temp.addUserOption(o => o.setName(option.name).setDescription(option.description))
+        break
       }
     }
   }
