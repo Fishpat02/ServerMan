@@ -1,5 +1,5 @@
 import { BaseCommandInteraction, CategoryChannel, Client } from 'discord.js'
-import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from 'discord.js/typings/enums'
+import { ApplicationCommandOptionTypes, ApplicationCommandTypes, ChannelTypes } from 'discord.js/typings/enums'
 import { CommandModule } from '../templates/commandModule'
 
 export const CreateChannel: CommandModule = {
@@ -11,7 +11,7 @@ export const CreateChannel: CommandModule = {
       name: 'category-name',
       description: 'Name of the category to put channel in.',
       type: ApplicationCommandOptionTypes.CHANNEL,
-      channelTypes: ['GUILD_CATEGORY'],
+      channelTypes: [ChannelTypes.GUILD_CATEGORY],
       required: true,
     },
     {
