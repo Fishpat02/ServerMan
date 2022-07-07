@@ -11,7 +11,7 @@ export const CreateChannel: CommandModule = {
       name: 'category-name',
       description: 'Name of the category to put channel in.',
       type: ApplicationCommandOptionTypes.CHANNEL,
-      channelTypes: [ChannelTypes.GUILD_CATEGORY],
+      channel_types: [ChannelTypes.GUILD_CATEGORY],
       required: true,
     },
     {
