@@ -63,24 +63,26 @@ export const CreateChannel: CommandModule = {
 
   async run(client: Client, interaction: BaseCommandInteraction) {
     const channelName = interaction.options.get('channel-name')?.value?.toString() ?? 'unknown'
+    const categoryName = interaction.options.get('category-name')?.value?.toString() ?? 'unknown'
 
     const commandName = interaction.options.data[interaction.options.data.length - 1].name
 
-    const content = `Channel "${channelName}" is created`
-
     switch (commandName) {
     case 'with-category':
-      await handleWithCategory(interaction, channelName, content)
+      await handleWithCategory(interaction, channelName)
       break
 
     case 'new-category':
+      await handleNewCategory(interaction, channelName, categoryName)
+      break
+
     case 'no-category':
     }
 
   },
 }
 
-const handleWithCategory = async (interaction: BaseCommandInteraction, channelName: string, content: string) => {
+const handleWithCategory = async (interaction: BaseCommandInteraction, channelName: string) => {
   const categoryId = interaction.options.get('category-name')?.channel?.id ?? '0'
   const categoryChannel = await interaction.guild?.channels.fetch(categoryId)
   const categoryChannelResolved = <CategoryChannel> (await categoryChannel?.fetch(true))
@@ -92,12 +94,34 @@ const handleWithCategory = async (interaction: BaseCommandInteraction, channelNa
     })
 
     await interaction.followUp({
-      content,
+      content: `Channel "${channelName}" has been created in "${categoryChannelResolved.name}"`,
     })
   }
   catch {
     await interaction.followUp({
       content: 'An error has occurred',
+    })
+  }
+}
+
+const handleNewCategory = async (interaction: BaseCommandInteraction, channelName: string, categoryName: string) => {
+  try {
+    const categoryChannel = await interaction.guild?.channels.create(categoryName, {
+      type: 'GUILD_CATEGORY',
+    })
+
+    await interaction.guild?.channels.create(channelName, {
+      type: 'GUILD_TEXT',
+      parent: categoryChannel,
+    })
+
+    await interaction.followUp({
+      content: `Category "${categoryName}" has been created.\nChannel "${channelName}" has been created in "${categoryName}"`,
+    })
+  }
+  catch {
+    await interaction.followUp({
+      content: 'An error has occurred.',
     })
   }
 }
