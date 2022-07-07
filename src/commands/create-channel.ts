@@ -77,6 +77,7 @@ export const CreateChannel: CommandModule = {
       break
 
     case 'no-category':
+      await handleNoCategory(interaction, channelName)
     }
 
   },
@@ -88,13 +89,13 @@ const handleWithCategory = async (interaction: BaseCommandInteraction, channelNa
   const categoryChannelResolved = <CategoryChannel> (await categoryChannel?.fetch(true))
 
   try {
-    await interaction.guild?.channels.create(channelName, {
+    const textChannel = await interaction.guild?.channels.create(channelName, {
       type: 'GUILD_TEXT',
       parent: categoryChannelResolved,
     })
 
     await interaction.followUp({
-      content: `Channel "${channelName}" has been created in "${categoryChannelResolved.name}"`,
+      content: `Channel <#${textChannel?.id ?? '0'}> has been created in "${categoryChannelResolved.name}"`,
     })
   }
   catch {
@@ -110,18 +111,35 @@ const handleNewCategory = async (interaction: BaseCommandInteraction, channelNam
       type: 'GUILD_CATEGORY',
     })
 
-    await interaction.guild?.channels.create(channelName, {
+    const textChannel = await interaction.guild?.channels.create(channelName, {
       type: 'GUILD_TEXT',
       parent: categoryChannel,
     })
 
     await interaction.followUp({
-      content: `Category "${categoryName}" has been created.\nChannel "${channelName}" has been created in "${categoryName}"`,
+      content: `Category "${categoryName}" has been created.\nChannel <#${textChannel?.id ?? '0'}> has been created in "${categoryName}"`,
     })
   }
   catch {
     await interaction.followUp({
       content: 'An error has occurred.',
+    })
+  }
+}
+
+const handleNoCategory = async (interaction: BaseCommandInteraction, channelName: string) => {
+  try {
+    const textChannel = await interaction.guild?.channels.create(channelName, {
+      type: 'GUILD_TEXT',
+    })
+
+    await interaction.followUp({
+      content: `Channel <#${textChannel?.id ?? '0'}> has been created.`,
+    })
+  }
+  catch {
+    await interaction.followUp({
+      content: 'An error has occurred',
     })
   }
 }
