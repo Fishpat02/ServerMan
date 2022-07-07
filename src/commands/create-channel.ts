@@ -8,43 +8,96 @@ export const CreateChannel: CommandModule = {
   type: ApplicationCommandTypes.CHAT_INPUT,
   options: [
     {
-      name: 'category-name',
-      description: 'Name of the category to put channel in.',
-      type: ApplicationCommandOptionTypes.CHANNEL,
-      channel_types: [ChannelTypes.GUILD_CATEGORY],
-      required: true,
+      name: 'with-category',
+      description: 'Create a channel in an existing category.',
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+      options: [
+        {
+          name: 'category-name',
+          description: 'Name of the category to put channel in.',
+          type: ApplicationCommandOptionTypes.CHANNEL,
+          channel_types: [ChannelTypes.GUILD_CATEGORY],
+          required: true,
+        },
+        {
+          name: 'channel-name',
+          description: 'Name for the new channel',
+          type: ApplicationCommandOptionTypes.STRING,
+          required: true,
+        },
+      ],
     },
     {
-      name: 'channel-name',
-      description: 'Name for the new channel',
-      type: ApplicationCommandOptionTypes.STRING,
-      required: true,
+      name: 'new-category',
+      description: 'Create a channel inside a new category.',
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+      options: [
+        {
+          name: 'category-name',
+          description: 'Name of the category to put channel in.',
+          type: ApplicationCommandOptionTypes.STRING,
+          required: true,
+        },
+        {
+          name: 'channel-name',
+          description: 'Name for the new channel',
+          type: ApplicationCommandOptionTypes.STRING,
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'no-category',
+      description: 'Create a channel without a category',
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+      options: [
+        {
+          name: 'channel-name',
+          description: 'Name for the new channel',
+          type: ApplicationCommandOptionTypes.STRING,
+          required: true,
+        },
+      ],
     },
   ],
 
   async run(client: Client, interaction: BaseCommandInteraction) {
     const channelName = interaction.options.get('channel-name')?.value?.toString() ?? 'unknown'
 
-    const categoryId = interaction.options.get('category-name')?.channel?.id ?? '0'
-    const categoryChannel = await interaction.guild?.channels.fetch(categoryId)
-    const categoryChannelResolved = <CategoryChannel> (await categoryChannel?.fetch(true))
+    const commandName = interaction.options.data[interaction.options.data.length - 1].name
 
-    const content = `Channel ${channelName} is created`
+    const content = `Channel "${channelName}" is created`
 
-    try {
-      await interaction.guild?.channels.create(channelName, {
-        type: 'GUILD_TEXT',
-        parent: categoryChannelResolved,
-      })
+    switch (commandName) {
+    case 'with-category':
+      await handleWithCategory(interaction, channelName, content)
+      break
 
-      await interaction.followUp({
-        content,
-      })
+    case 'new-category':
+    case 'no-category':
     }
-    catch {
-      await interaction.followUp({
-        content: 'An error has occurred',
-      })
-    }
+
   },
+}
+
+const handleWithCategory = async (interaction: BaseCommandInteraction, channelName: string, content: string) => {
+  const categoryId = interaction.options.get('category-name')?.channel?.id ?? '0'
+  const categoryChannel = await interaction.guild?.channels.fetch(categoryId)
+  const categoryChannelResolved = <CategoryChannel> (await categoryChannel?.fetch(true))
+
+  try {
+    await interaction.guild?.channels.create(channelName, {
+      type: 'GUILD_TEXT',
+      parent: categoryChannelResolved,
+    })
+
+    await interaction.followUp({
+      content,
+    })
+  }
+  catch {
+    await interaction.followUp({
+      content: 'An error has occurred',
+    })
+  }
 }
