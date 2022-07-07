@@ -19,7 +19,9 @@
     "ts-node": "^10.8.2"
   },
   "scripts": {
-    "start": "nodemon",
+    "dev": "nodemon",
+    "prestart": "tsc",
+    "start": "node",
     "deploy": "ts-node src/scripts/deploy-commands.ts"
   }
 }
