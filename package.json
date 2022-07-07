@@ -21,7 +21,7 @@
   "scripts": {
     "dev": "nodemon",
     "prestart": "tsc",
-    "start": "node",
+    "start": "node dist/bot.js",
     "deploy": "ts-node src/scripts/deploy-commands.ts"
   }
 }
