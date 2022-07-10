@@ -65,6 +65,7 @@ export const CreateChannel: CommandModule = {
     const channelName = interaction.options.get('channel-name')?.value?.toString() ?? 'unknown'
     const categoryName = interaction.options.get('category-name')?.value?.toString() ?? 'unknown'
 
+    // TODO: Make this nicer with .slice()
     const commandName = interaction.options.data[interaction.options.data.length - 1].name
 
     switch (commandName) {
