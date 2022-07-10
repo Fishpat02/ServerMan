@@ -16,12 +16,14 @@
     "dotenv": "^16.0.1",
     "eslint": "^8.19.0",
     "nodemon": "^2.0.18",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.8.2"
   },
   "scripts": {
+    "clean": "rimraf ./dist",
+    "deploy": "ts-node src/scripts/deploy-commands.ts",
     "dev": "nodemon",
     "prestart": "tsc",
-    "start": "node dist/bot.js",
-    "deploy": "ts-node src/scripts/deploy-commands.ts"
+    "start": "node dist/bot.js"
   }
 }
