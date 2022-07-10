@@ -11,12 +11,14 @@ export const CreateThread: CommandModule = {
       name: 'channel-name',
       description: 'Channel in which to create the thread.',
       type: ApplicationCommandOptionTypes.CHANNEL,
+      required: true,
       channel_types: [ChannelTypes.GUILD_TEXT],
     },
     {
       name: 'thread-name',
       description: 'The name of the thread to create.',
       type: ApplicationCommandOptionTypes.STRING,
+      required: true,
     },
   ],
 
