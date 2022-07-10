@@ -30,10 +30,14 @@ export const CreateThread: CommandModule = {
 
     const channel = <TextChannel> (await interaction.guild?.channels.fetch(channelId))
 
-    await channel.threads.create({
+    const thread = await channel.threads.create({
       name: threadName,
       invitable: true,
       startMessage: `Created at ${Date.now.toString()}`,
+    })
+
+    await interaction.followUp({
+      content: `Thread <#${thread.id}> has been created in <#${channel.id}>`,
     })
   },
 }
