@@ -23,7 +23,7 @@ export const CreateThread: CommandModule = {
   ],
 
   async run(client: Client, interaction: BaseCommandInteraction) {
-    const threadName = interaction.options.get('thread-name')?.name.toString() ?? 'unknown'
+    const threadName = interaction.options.get('thread-name')?.value?.toString() ?? 'unknown'
     const channelCache = interaction.options.get('channel-name')
 
     const channelId = channelCache?.channel?.id ?? 'unknown'
@@ -33,7 +33,6 @@ export const CreateThread: CommandModule = {
     const thread = await channel.threads.create({
       name: threadName,
       invitable: true,
-      startMessage: `Created at ${Date.now.toString()}`,
     })
 
     await interaction.followUp({
