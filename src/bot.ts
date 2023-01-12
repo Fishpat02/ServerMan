@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import ready from './listeners/ready'
 import interactionCreate from './listeners/interactionCreate'
 import { Client, Intents } from 'discord.js'
