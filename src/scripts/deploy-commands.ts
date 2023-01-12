@@ -9,6 +9,6 @@ rest.put(Routes.applicationGuildCommands(process.env.CLIENT!, process.env.GUILD!
   .then(() => console.log(`Successfully registered ${Commands.length} application commands.`))
   .catch(console.error)
 
-rest.put(Routes.applicationCommands(process.env.CLIENT!),
+void rest.put(Routes.applicationCommands(process.env.CLIENT!),
   { body: Commands },
 )
