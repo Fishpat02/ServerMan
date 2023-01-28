@@ -7,38 +7,38 @@ const args = process.argv.slice(2)
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN!)
 
-const registerGuildCommands = () => {
+const deleteGuildCommands = () => {
   rest
     .put(
       Routes.applicationGuildCommands(process.env.CLIENT!, process.env.GUILD!),
-      { body: Commands },
+      { body: [] },
     )
     .then(() =>
-      console.log(
-        `Successfully registered ${Commands.length} guild commands.`,
-      ),
+      console.log(`Successfully deleted ${Commands.length} guild commands`),
     )
     .catch(console.error)
 }
 
-const registerGlobalCommands = () => {
+const deleteGlobalCommands = () => {
   rest
-    .put(Routes.applicationCommands(process.env.CLIENT!), { body: Commands })
-    .then(() => {
-      console.log(`Successfully registered ${Commands.length} global commands`)
-    })
+    .put(Routes.applicationCommands(process.env.CLIENT!), { body: [] })
+    .then(() =>
+      console.log(`Successfully deleted ${Commands.length} global commands`),
+    )
     .catch(console.error)
 }
 
 switch (args.pop()) {
 case 'guild':
-  registerGuildCommands()
+  deleteGuildCommands()
   break
+
 case 'global':
-  registerGlobalCommands()
+  deleteGlobalCommands()
   break
+
 default:
-  registerGuildCommands()
-  registerGlobalCommands()
+  deleteGuildCommands()
+  deleteGlobalCommands()
   break
 }
