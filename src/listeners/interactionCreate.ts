@@ -1,15 +1,15 @@
-import { BaseCommandInteraction, Client, Interaction } from 'discord.js'
+import { CommandInteraction, Client, Interaction } from 'discord.js'
 import { Commands } from '../commands'
 
 export default (client: Client): void => {
   client.on('interactionCreate', async (interaction: Interaction) => {
-    if (interaction.isCommand() || interaction.isContextMenu()) {
+    if (interaction.isCommand() || interaction.isContextMenuCommand()) {
       await handleSlashCommand(client, interaction)
     }
   })
 }
 
-const handleSlashCommand = async (client: Client, interaction: BaseCommandInteraction) => {
+const handleSlashCommand = async (client: Client, interaction: CommandInteraction) => {
   const command = Commands.find(c => c.name === interaction.commandName)
 
   if (!command) {

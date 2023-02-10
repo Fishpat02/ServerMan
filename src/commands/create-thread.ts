@@ -1,28 +1,28 @@
-import { BaseCommandInteraction, Client, TextChannel } from 'discord.js'
-import { ApplicationCommandOptionTypes, ApplicationCommandTypes, ChannelTypes } from 'discord.js/typings/enums'
+import { CommandInteraction, Client, TextChannel } from 'discord.js'
+import { ApplicationCommandType, ApplicationCommandOptionType, ChannelType } from 'discord.js'
 import { CommandModule } from '../templates/commandModule'
 
 export const CreateThread: CommandModule = {
   name: 'create-thread',
   description: 'Creates a new public thread in a given channel.',
-  type: ApplicationCommandTypes.CHAT_INPUT,
+  type: ApplicationCommandType.ChatInput,
   options: [
     {
       name: 'channel-name',
       description: 'Channel in which to create the thread.',
-      type: ApplicationCommandOptionTypes.CHANNEL,
+      type: ApplicationCommandOptionType.Channel,
       required: true,
-      channel_types: [ChannelTypes.GUILD_TEXT],
+      channel_types: [ChannelType.GuildText],
     },
     {
       name: 'thread-name',
       description: 'The name of the thread to create.',
-      type: ApplicationCommandOptionTypes.STRING,
+      type: ApplicationCommandOptionType.String,
       required: true,
     },
   ],
 
-  async run(client: Client, interaction: BaseCommandInteraction) {
+  async run(client: Client, interaction: CommandInteraction) {
     const threadName = interaction.options.get('thread-name')?.value?.toString() ?? 'unknown'
     const channelCache = interaction.options.get('channel-name')
 

@@ -1,8 +1,8 @@
 import ready from './listeners/ready'
 import interactionCreate from './listeners/interactionCreate'
-import { Client, Intents } from 'discord.js'
+import { Client, IntentsBitField } from 'discord.js'
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] })
+const client = new Client({ intents: [IntentsBitField.Flags.Guilds] })
 
 ready(client)
 interactionCreate(client)
