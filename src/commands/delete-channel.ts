@@ -36,6 +36,10 @@ export const DeleteChannel: CommandModule = {
     },
   ],
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/main
   async run(client: Client, interaction: CommandInteraction) {
     const commandName = interaction.options.data[interaction.options.data.length - 1].name
 
