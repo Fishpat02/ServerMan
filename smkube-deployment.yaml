@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serverman
+  labels:
+    app: serverman
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: serverman
+  template:
+    metadata:
+      labels:
+        app: serverman
+    spec:
+      containers:
+      - name: serverman
+        image: serverman:latest
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: "2G"
+            cpu: "500m"
+        env:
+          - name: TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: smkube-secrets
+                key: serverman-token
+          - name: GUILD
+            valueFrom:
+              secretKeyRef:
+                name: smkube-secrets
+                key: serverman-guild
+          - name: CLIENT
+            valueFrom:
+              secretKeyRef:
+                name: smkube-secrets
+                key: serverman-client
