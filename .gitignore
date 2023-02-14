@@ -134,3 +134,7 @@ dist
 
 # Simple run script for docker
 run*
+
+# Secrets file for k8s
+*secrets.yaml
+*secrets.yml
