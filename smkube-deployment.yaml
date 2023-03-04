@@ -5,6 +5,7 @@ metadata:
   labels:
     app: serverman
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: serverman
