@@ -4,7 +4,7 @@ WORKDIR /home/node
 
 COPY . .
 
-RUN rm -rf node_modules && chown -R node:node /home/node/
+RUN chown -R node:node /home/node/
 
 USER node:node
 
