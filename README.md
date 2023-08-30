@@ -26,7 +26,7 @@ This bot has also been made with mutliple deployment methods in mind, due to it'
 
 * KubeCTL \
   This is one of a few ways to use Kubernetes, however this is the one I have chosen to experiment with. That being said, this may easily be adapted. Keep in mind that this method depends on you having build the Docker image locally. \
-  It is recommended that you tag it appropriately using the `T <tag:name/version>` option of the previous method, and adjust the `smkube-deployment.yaml` file accordingly. \
+  It is recommended that you tag it appropriately using the `-T <tag:name/version>` option of the previous method, and adjust the `smkube-deployment.yaml` file accordingly. \
   * `kubectl apply -f ./smkube-secrets.yaml`
   * `kubectl apply -f ./smkube-deployment.yaml`
 
