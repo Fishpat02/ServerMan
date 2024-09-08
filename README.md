@@ -9,11 +9,11 @@ This bot is a personal project, intended to be a sandbox for my typescript that 
   * `new-category  <category_name> <channel_name>`
   * `no-category   <channel_name>`
 
-* `create-thread` \
+* `/create-thread` \
   Creates a thread inside of a given, existing channel.
   * `<channel_name> <thread_name>`
  
-* `delete-channel` \
+* `/delete-channel` \
   Deletes a channel or category, and all channels contained within, with the following options:
   * `category <category_name>`
   * `channel <channel_name>`
