@@ -1,5 +1,5 @@
-import { Client, CommandInteraction, ApplicationCommandType, ApplicationCommandOptionType, ChannelType, CategoryChannel, TextChannel } from 'discord.js'
-import { CommandModule } from '../templates/commandModule'
+import { type Client, type CommandInteraction, ApplicationCommandType, ApplicationCommandOptionType, ChannelType, type CategoryChannel, type TextChannel } from 'discord.js'
+import type { CommandModule } from '../templates/commandModule.ts'
 
 export const DeleteChannel: CommandModule = {
   name: 'delete-channel',
@@ -36,7 +36,7 @@ export const DeleteChannel: CommandModule = {
     },
   ],
 
-  async run(client: Client, interaction: CommandInteraction) {
+  async run(_client: Client, interaction: CommandInteraction) {
     const commandName = interaction.options.data[interaction.options.data.length - 1].name
 
     switch (commandName) {

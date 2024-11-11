@@ -1,6 +1,6 @@
-import { CommandInteraction, CategoryChannel, Client } from 'discord.js'
+import type { CommandInteraction, CategoryChannel, Client } from 'discord.js'
 import { ApplicationCommandType, ApplicationCommandOptionType, ChannelType } from 'discord.js'
-import { CommandModule } from '../templates/commandModule'
+import type { CommandModule } from '../templates/commandModule.ts'
 
 export const CreateChannel: CommandModule = {
   name: 'create-channel',
@@ -61,7 +61,7 @@ export const CreateChannel: CommandModule = {
     },
   ],
 
-  async run(client: Client, interaction: CommandInteraction) {
+  async run(_client: Client, interaction: CommandInteraction) {
     const channelName = interaction.options.get('channel-name')?.value?.toString() ?? 'unknown'
     const categoryName = interaction.options.get('category-name')?.value?.toString() ?? 'unknown'
 
