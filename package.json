@@ -25,6 +25,6 @@
     "deploy": "ts-node src/scripts/deploy-commands.ts",
     "dev": "nodemon",
     "prestart": "yarn build",
-    "start": "node dist/bot.js"
+    "start": "node -r dotenv/config dist/bot.js"
   }
 }
