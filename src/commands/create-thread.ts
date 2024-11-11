@@ -1,6 +1,6 @@
-import { CommandInteraction, Client, TextChannel } from 'discord.js'
+import type { CommandInteraction, Client, TextChannel } from 'discord.js'
 import { ApplicationCommandType, ApplicationCommandOptionType, ChannelType } from 'discord.js'
-import { CommandModule } from '../templates/commandModule'
+import type { CommandModule } from '../templates/commandModule.ts'
 
 export const CreateThread: CommandModule = {
   name: 'create-thread',
@@ -22,7 +22,7 @@ export const CreateThread: CommandModule = {
     },
   ],
 
-  async run(client: Client, interaction: CommandInteraction) {
+  async run(_client: Client, interaction: CommandInteraction) {
     const threadName = interaction.options.get('thread-name')?.value?.toString() ?? 'unknown'
     const channelCache = interaction.options.get('channel-name')
 
