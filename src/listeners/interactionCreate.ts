@@ -15,7 +15,7 @@ const handleSlashCommand = async (
   client: Client,
   interaction: CommandInteraction,
 ) => {
-  const command = Commands.find(c => c.name === interaction.commandName)
+  const command = Commands.find((c) => c.name === interaction.commandName)
 
   if (!command) {
     void interaction.followUp({
