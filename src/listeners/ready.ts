@@ -3,7 +3,7 @@ import type { Client } from 'discord.js'
 import { Events } from 'discord.js'
 
 export default (client: Client): void => {
-  client.once(Events.ClientReady, readyClient => {
+  client.once(Events.ClientReady, (readyClient) => {
     if (!readyClient.user || !readyClient.application) {
       return
     }
