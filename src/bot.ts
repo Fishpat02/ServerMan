@@ -1,9 +1,9 @@
-import ready from './listeners/ready.ts'
+import { Client, GatewayIntentBits } from 'discord.js'
+import process from 'node:process'
 import interactionCreate from './listeners/interactionCreate.ts'
-import { Client, IntentsBitField } from 'discord.js'
-import process from "node:process";
+import ready from './listeners/ready.ts'
 
-const client = new Client({ intents: [IntentsBitField.Flags.Guilds] })
+const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 
 ready(client)
 interactionCreate(client)

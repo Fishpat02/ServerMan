@@ -1,9 +1,13 @@
 import type { Client } from 'discord.js'
 
-export default (client: Client): void => {
-  client.on('ready', () => {
-    if (!client.user || !client.application) {return}
+import { Events } from 'discord.js'
 
-    console.log(`${client.user.tag} is ready!`)
+export default (client: Client): void => {
+  client.once(Events.ClientReady, readyClient => {
+    if (!readyClient.user || !readyClient.application) {
+      return
+    }
+
+    console.log(`${readyClient.user.tag} is ready!`)
   })
 }
