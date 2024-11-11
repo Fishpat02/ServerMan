@@ -1,45 +1,45 @@
-import 'dotenv/config'
 import { Commands } from '../commands.ts'
-import { REST } from '@discordjs/rest'
-import { Routes } from 'discord-api-types/v10'
-import process from "node:process";
+import { REST, Routes } from 'discord.js'
 
-const args = process.argv.slice(2)
+const args = Deno.args[0]
 
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN!)
+const rest = new REST({ version: '10' }).setToken(Deno.env.get('TOKEN')!)
 
 const deleteGuildCommands = () => {
   rest
     .put(
-      Routes.applicationGuildCommands(process.env.CLIENT!, process.env.GUILD!),
+      Routes.applicationGuildCommands(
+        Deno.env.get('CLIENT')!,
+        Deno.env.get('GUILD')!,
+      ),
       { body: [] },
     )
     .then(() =>
-      console.log(`Successfully deleted ${Commands.length} guild commands`),
+      console.log(`Successfully deleted ${Commands.length} guild commands`)
     )
     .catch(console.error)
 }
 
 const deleteGlobalCommands = () => {
   rest
-    .put(Routes.applicationCommands(process.env.CLIENT!), { body: [] })
+    .put(Routes.applicationCommands(Deno.env.get('CLIENT')!), { body: [] })
     .then(() =>
-      console.log(`Successfully deleted ${Commands.length} global commands`),
+      console.log(`Successfully deleted ${Commands.length} global commands`)
     )
     .catch(console.error)
 }
 
-switch (args.pop()) {
-case 'guild':
-  deleteGuildCommands()
-  break
+switch (args) {
+  case 'guild':
+    deleteGuildCommands()
+    break
 
-case 'global':
-  deleteGlobalCommands()
-  break
+  case 'global':
+    deleteGlobalCommands()
+    break
 
-default:
-  deleteGuildCommands()
-  deleteGlobalCommands()
-  break
+  default:
+    deleteGuildCommands()
+    deleteGlobalCommands()
+    break
 }
