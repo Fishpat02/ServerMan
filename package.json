@@ -23,8 +23,8 @@
     "build": "tsc",
     "clean": "rimraf ./dist",
     "deploy": "ts-node src/scripts/deploy-commands.ts",
-    "dev": "nodemon",
+    "dev": "nodemon -r dotenv/config",
     "prestart": "yarn build",
-    "start": "node -r dotenv/config dist/bot.js"
+    "start": "node dist/bot.js"
   }
 }
