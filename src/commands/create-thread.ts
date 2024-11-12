@@ -5,21 +5,22 @@ import {
   ChannelType,
 } from 'discord.js'
 import type { CommandModule } from '../templates/commandModule.ts'
+import { BaseCommandNames, SubCommandNames } from '../templates/commandNames.ts'
 
 export const CreateThread: CommandModule = {
-  name: 'create-thread',
+  name: BaseCommandNames.CreateThread,
   description: 'Creates a new public thread in a given channel.',
   type: ApplicationCommandType.ChatInput,
   options: [
     {
-      name: 'channel-name',
+      name: SubCommandNames.Channel,
       description: 'Channel in which to create the thread.',
       type: ApplicationCommandOptionType.Channel,
       required: true,
       channel_types: [ChannelType.GuildText],
     },
     {
-      name: 'thread-name',
+      name: SubCommandNames.ThreadName,
       description: 'The name of the thread to create.',
       type: ApplicationCommandOptionType.String,
       required: true,
@@ -27,22 +28,27 @@ export const CreateThread: CommandModule = {
   ],
 
   async run(_client: Client, interaction: CommandInteraction) {
-    const threadName =
-      interaction.options.get('thread-name')?.value?.toString() ?? 'unknown'
-    const channelCache = interaction.options.get('channel-name')
+    const threadName = interaction.options.get(SubCommandNames.ThreadName, true)
+      .value!
+      .toString()
 
-    const channelId = channelCache?.channel?.id ?? 'unknown'
+    const channel = interaction.options.get(SubCommandNames.Channel, true)
+      .channel! as TextChannel
 
-    const channel =
-      <TextChannel> (await interaction.guild?.channels.fetch(channelId))
+    try {
+      const thread = await channel.threads.create({
+        name: threadName,
+        invitable: true,
+      })
 
-    const thread = await channel.threads.create({
-      name: threadName,
-      invitable: true,
-    })
-
-    await interaction.followUp({
-      content: `Thread <#${thread.id}> has been created in <#${channel.id}>`,
-    })
+      await interaction.followUp({
+        content:
+          `Thread ${thread.toString()} has been created in ${channel.toString()}`,
+      })
+    } catch {
+      await interaction.followUp({
+        content: `Failed to create "${threadName}" in ${channel.toString()}`,
+      })
+    }
   },
 }
