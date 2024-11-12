@@ -1,4 +1,12 @@
-import { type Client, type CommandInteraction, ApplicationCommandType, ApplicationCommandOptionType, ChannelType, type CategoryChannel, type TextChannel } from 'discord.js'
+import {
+  ApplicationCommandOptionType,
+  ApplicationCommandType,
+  type CategoryChannel,
+  ChannelType,
+  type Client,
+  type CommandInteraction,
+  type TextChannel,
+} from 'discord.js'
 import type { CommandModule } from '../templates/commandModule.ts'
 
 export const DeleteChannel: CommandModule = {
@@ -37,24 +45,27 @@ export const DeleteChannel: CommandModule = {
   ],
 
   async run(_client: Client, interaction: CommandInteraction) {
-    const commandName = interaction.options.data[interaction.options.data.length - 1].name
+    const commandName =
+      interaction.options.data[interaction.options.data.length - 1].name
 
     switch (commandName) {
-    case 'category':
-      await handleCategory(interaction)
-      break
+      case 'category':
+        await handleCategory(interaction)
+        break
 
-    case 'channel':
-      await handleChannel(interaction)
-      break
+      case 'channel':
+        await handleChannel(interaction)
+        break
     }
   },
 }
 
 const handleCategory = async (interaction: CommandInteraction) => {
-  const categoryId = interaction.options.get('category-name')?.channel?.id ?? '0'
+  const categoryId = interaction.options.get('category-name')?.channel?.id ??
+    '0'
   const categoryChannel = await interaction.guild?.channels.fetch(categoryId)
-  const categoryChannelResolved = <CategoryChannel> (await categoryChannel?.fetch(true))
+  const categoryChannelResolved =
+    <CategoryChannel> (await categoryChannel?.fetch(true))
 
   try {
     const children = categoryChannelResolved.children.cache
@@ -68,8 +79,7 @@ const handleCategory = async (interaction: CommandInteraction) => {
     await interaction.followUp({
       content: 'Category and channels deleted',
     })
-  }
-  catch {
+  } catch {
     await interaction.followUp({
       content: 'An error has occurred',
     })
@@ -87,8 +97,7 @@ const handleChannel = async (interaction: CommandInteraction) => {
     await interaction.followUp({
       content: 'Channel successfully deleted',
     })
-  }
-  catch {
+  } catch {
     await interaction.followUp({
       content: 'An error has occurred',
     })
