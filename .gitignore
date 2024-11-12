@@ -138,3 +138,6 @@ run*
 # Secrets file for k8s
 *secrets.yaml
 *secrets.yml
+
+# Jetbains IDE config
+.idea/
