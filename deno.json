@@ -12,7 +12,11 @@
   },
   "lint": {
     "rules": {
-      "include": ["no-explicit-any", "no-irregular-whitespace", "prefer-const"]
+      "include": [
+        "no-explicit-any",
+        "no-irregular-whitespace",
+        "prefer-const"
+      ]
     }
   },
   "name": "@fishpat02/serverman",
