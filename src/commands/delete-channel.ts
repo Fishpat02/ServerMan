@@ -1,26 +1,29 @@
+import type {
+  CategoryChannel,
+  Client,
+  CommandInteraction,
+  TextChannel,
+} from 'discord.js'
 import {
   ApplicationCommandOptionType,
   ApplicationCommandType,
-  type CategoryChannel,
   ChannelType,
-  type Client,
-  type CommandInteraction,
-  type TextChannel,
 } from 'discord.js'
 import type { CommandModule } from '../templates/commandModule.ts'
+import { BaseCommandNames, SubCommandNames } from '../templates/commandNames.ts'
 
 export const DeleteChannel: CommandModule = {
-  name: 'delete-channel',
+  name: BaseCommandNames.DeleteChannel,
   description: 'Deletes selected channel or channels',
   type: ApplicationCommandType.ChatInput,
   options: [
     {
-      name: 'category',
+      name: SubCommandNames.Category,
       description: 'Deletes a category and each of the channels within',
       type: ApplicationCommandOptionType.Subcommand,
       options: [
         {
-          name: 'category-name',
+          name: SubCommandNames.CategoryName,
           description: 'Name of the category to delete',
           type: ApplicationCommandOptionType.Channel,
           channel_types: [ChannelType.GuildCategory],
@@ -29,12 +32,12 @@ export const DeleteChannel: CommandModule = {
       ],
     },
     {
-      name: 'channel',
+      name: SubCommandNames.Channel,
       description: 'Deletes a channel',
       type: ApplicationCommandOptionType.Subcommand,
       options: [
         {
-          name: 'channel-name',
+          name: SubCommandNames.ChannelName,
           description: 'Name of the channel to delete',
           type: ApplicationCommandOptionType.Channel,
           channel_types: [ChannelType.GuildText],
@@ -45,15 +48,14 @@ export const DeleteChannel: CommandModule = {
   ],
 
   async run(_client: Client, interaction: CommandInteraction) {
-    const commandName =
-      interaction.options.data[interaction.options.data.length - 1].name
+    const commandName = interaction.options.data.at(0)!.name
 
     switch (commandName) {
-      case 'category':
+      case SubCommandNames.Category:
         await handleCategory(interaction)
         break
 
-      case 'channel':
+      case SubCommandNames.Channel:
         await handleChannel(interaction)
         break
     }
@@ -61,45 +63,50 @@ export const DeleteChannel: CommandModule = {
 }
 
 const handleCategory = async (interaction: CommandInteraction) => {
-  const categoryId = interaction.options.get('category-name')?.channel?.id ??
-    '0'
-  const categoryChannel = await interaction.guild?.channels.fetch(categoryId)
-  const categoryChannelResolved =
-    <CategoryChannel> (await categoryChannel?.fetch(true))
+  const categoryChannel = interaction.options.get(
+    SubCommandNames.CategoryName,
+    true,
+  ).channel! as CategoryChannel
+
+  const categoryName = categoryChannel.name
 
   try {
-    const children = categoryChannelResolved.children.cache
+    const children = categoryChannel.children.cache
 
     for (const child of children) {
       await child[1].delete()
     }
 
-    await categoryChannelResolved.delete()
+    await categoryChannel.delete()
 
     await interaction.followUp({
-      content: 'Category and channels deleted',
+      content: `Category "${categoryName}" and channels deleted`,
     })
   } catch {
     await interaction.followUp({
-      content: 'An error has occurred',
+      content:
+        `Failed to delete category ${categoryChannel.toString()} and its children`,
     })
   }
 }
 
 const handleChannel = async (interaction: CommandInteraction) => {
-  const channelId = interaction.options.get('channel-name')?.channel?.id ?? '0'
-  const textChannel = await interaction.guild?.channels.fetch(channelId)
-  const textChannelResolved = <TextChannel> (await textChannel?.fetch(true))
+  const textChannel = interaction.options.get(
+    SubCommandNames.ChannelName,
+    true,
+  ).channel! as TextChannel
+
+  const channelName = textChannel.name
 
   try {
-    await textChannelResolved.delete()
+    await textChannel.delete()
 
     await interaction.followUp({
-      content: 'Channel successfully deleted',
+      content: `Channel "${channelName}" successfully deleted`,
     })
   } catch {
     await interaction.followUp({
-      content: 'An error has occurred',
+      content: `Failed to delete channel ${textChannel.toString()}`,
     })
   }
 }
