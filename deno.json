@@ -21,9 +21,9 @@
   },
   "name": "@fishpat02/serverman",
   "tasks": {
-    "deploy": "deno run ./src/scripts/deploy-commands.ts",
-    "dev": "deno run --watch --env-file ./src/bot.ts",
-    "purge": "deno run ./src/scripts/purge-commands.ts"
+    "deploy": "deno run -E -R -N --env-file=.env.development.local ./src/scripts/deploy-commands.ts guild",
+    "dev": "deno run -E -R -N --env-file=.env.development.local ./src/bot.ts",
+    "purge": "deno run -E -R -N --env-file=.env.development.local ./src/scripts/purge-commands.ts guild"
   },
   "version": "2.0.0"
 }
