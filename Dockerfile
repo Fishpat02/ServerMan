@@ -1,13 +1,11 @@
-FROM node:lts-alpine
+FROM denoland/deno:alpine
 
-WORKDIR /home/node
+WORKDIR /app
 
 COPY . .
 
-RUN chown -R node:node /home/node/
+USER deno
 
-USER node:node
+RUN deno cache src/bot.ts
 
-RUN yarn install --production && yarn cache clean
-
-CMD [ "yarn", "start" ]
+CMD [ "deno", "run", "--allow-read", "--allow-env", "--allow-net", "src/bot.ts" ]
