@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'v2-update']
   pull_request:
-    branches: ['main']
+    branches: ['main', 'v2-update']
 
 jobs:
   build:
@@ -13,4 +13,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --tag server-man:$(date +%s)
+        run: docker build . --tag serverman:$(date +%s)
